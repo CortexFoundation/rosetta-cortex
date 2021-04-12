@@ -98,7 +98,7 @@ func (oc *Proxy) ConstructionMetadataFromOptions(ctx context.Context, options ma
 
 // SupportedOperations lists the operations supported by the implementation
 func (oc *Proxy) SupportedOperations() []string {
-	return nil
+	return []string{"Block"}
 }
 
 // OperationsStatuses returns the list of statuses supported by the implementation
