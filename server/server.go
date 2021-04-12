@@ -38,6 +38,7 @@ type Server struct {
 }
 
 func (h Server) Start() error {
+	fmt.Println("server starting " + h.addr)
 	return http.ListenAndServe(h.addr, h.h)
 }
 
