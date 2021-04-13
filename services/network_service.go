@@ -55,7 +55,7 @@ func (s *NetworkAPIService) NetworkStatus(
 			Index: 3616244,
 			Hash:  "0xec87df31c230298a66eabbfa3d030a835831a55ddbefdc958e77e2f7cd59e81d",
 		},
-		CurrentBlockTimestamp: int64(1618217080000,
+		CurrentBlockTimestamp: int64(1618217080000),
 		GenesisBlockIdentifier: &types.BlockIdentifier{
 			Index: 0,
 			Hash:  "0x21d6ce908e2d1464bd74bbdbf7249845493cc1ba10460758169b978e187762c1",

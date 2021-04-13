@@ -2,8 +2,6 @@ package proxy
 
 import (
 	"context"
-	//mocks "github.com/CortexFoundation/rosetta-cortex/ethereum"
-	ctypes "github.com/CortexFoundation/rosetta-cortex/types"
 	"github.com/coinbase/rosetta-sdk-go/types"
 )
 
@@ -40,25 +38,25 @@ func (oc *Proxy) Balances(ctx context.Context, addr string, height *int64) ([]*t
 }
 
 // BlockByHashAlt gets a block and its transaction at the provided height
-func (oc *Proxy) BlockByHash(ctx context.Context, hash string) (ctypes.BlockResponse, error) {
-	return ctypes.BlockResponse{}, nil
+func (oc *Proxy) BlockByHash(ctx context.Context, hash string) (types.BlockResponse, error) {
+	return types.BlockResponse{}, nil
 }
 
 // BlockByHeightAlt gets a block given its height, if height is nil then last block is returned
-func (oc *Proxy) BlockByHeight(ctx context.Context, height *int64) (ctypes.BlockResponse, error) {
-	return ctypes.BlockResponse{}, nil
+func (oc *Proxy) BlockByHeight(ctx context.Context, height *int64) (types.BlockResponse, error) {
+	return types.BlockResponse{}, nil
 }
 
 // BlockTransactionsByHash gets the block, parent block and transactions
 // given the block hash.
-func (oc *Proxy) BlockTransactionsByHash(ctx context.Context, hash string) (ctypes.BlockTransactionsResponse, error) {
-	return ctypes.BlockTransactionsResponse{}, nil
+func (oc *Proxy) BlockTransactionsByHash(ctx context.Context, hash string) (types.BlockTransactionsResponse, error) {
+	return types.BlockTransactionsResponse{}, nil
 }
 
 // BlockTransactionsByHash gets the block, parent block and transactions
 // given the block hash.
-func (oc *Proxy) BlockTransactionsByHeight(ctx context.Context, height *int64) (ctypes.BlockTransactionsResponse, error) {
-	return ctypes.BlockTransactionsResponse{}, nil
+func (oc *Proxy) BlockTransactionsByHeight(ctx context.Context, height *int64) (types.BlockTransactionsResponse, error) {
+	return types.BlockTransactionsResponse{}, nil
 }
 
 // GetTx gets a transaction given its hash
