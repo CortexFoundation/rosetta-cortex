@@ -6,3 +6,15 @@
 
 Shared lib used in Cortex-SDK. This includes the libraries that are used by
 different versions of the SDK, including Launchpad and Stargate.
+
+Starting the proxy service
+```
+go run cmd/main.go
+```
+
+Do testing
+
+```
+./test-insall.sh
+./test-run.sh
+```
