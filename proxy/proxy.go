@@ -2,15 +2,19 @@ package proxy
 
 import (
 	"context"
+	//mocks "github.com/CortexFoundation/rosetta-cortex/ethereum"
 	ctypes "github.com/CortexFoundation/rosetta-cortex/types"
 	"github.com/coinbase/rosetta-sdk-go/types"
 )
 
 type Proxy struct {
+	c *mocks.Client
 }
 
 func New() *Proxy {
-	return &Proxy{}
+	proxy := &Proxy{}
+	proxy.c = mocks.NewClient("127.0.0.1:8545", nil, nil)
+	return proxy
 }
 
 // Needed if the client needs to perform some action before connecting
