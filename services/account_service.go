@@ -26,11 +26,15 @@ func (s *AccountAPIService) AccountBalance(
 ) (*types.AccountBalanceResponse, *types.Error) {
 	return &types.AccountBalanceResponse{
 		BlockIdentifier: &types.BlockIdentifier{
-			Index: 3616244,
+			Index: 1000,
 			Hash:  "0xec87df31c230298a66eabbfa3d030a835831a55ddbefdc958e77e2f7cd59e81d",
 		},
-		Balances: []*types.Amount{&types.Amount{Value: "1000", Currency: &types.Currency{Symbol: "CTXC", Decimals: 2}}},
-		Metadata: nil,
+		Balances: []*types.Amount{
+			&types.Amount{
+				Value:    "1000",
+				Currency: &types.Currency{Symbol: "CTXC", Decimals: 18},
+			},
+		},
 	}, nil
 }
 
@@ -41,10 +45,22 @@ func (s *AccountAPIService) AccountCoins(
 ) (*types.AccountCoinsResponse, *types.Error) {
 	return &types.AccountCoinsResponse{
 		BlockIdentifier: &types.BlockIdentifier{
-			Index: 3616244,
+			Index: 1000,
 			Hash:  "0xec87df31c230298a66eabbfa3d030a835831a55ddbefdc958e77e2f7cd59e81d",
 		},
-		Coins:    nil,
-		Metadata: nil,
+		Coins: []*types.Coin{
+			{
+				Amount: &types.Amount{
+					Value: "1000",
+					Currency: &types.Currency{
+						Symbol:   "CTXC",
+						Decimals: 18,
+					},
+				},
+				CoinIdentifier: &types.CoinIdentifier{
+					Identifier: "coin",
+				},
+			},
+		},
 	}, nil
 }
