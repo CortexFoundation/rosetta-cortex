@@ -34,7 +34,7 @@ func (s *AccountAPIService) AccountBalance(
 	}, nil
 }
 
-// BlockTransaction implements the /account/coins endpointfunc (s *AccountAPIService) AccountBalance(
+// BlockTransaction implements the /account/coins endpoint
 func (s *AccountAPIService) AccountCoins(
 	ctx context.Context,
 	request *types.AccountCoinsRequest,
