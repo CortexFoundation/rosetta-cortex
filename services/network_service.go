@@ -36,6 +36,7 @@ func (s *NetworkAPIService) NetworkStatus(
 	ctx context.Context,
 	request *types.NetworkRequest,
 ) (*types.NetworkStatusResponse, *types.Error) {
+	//TODO
 	return &types.NetworkStatusResponse{
 		CurrentBlockIdentifier: &types.BlockIdentifier{
 			Index: 1000,
@@ -59,6 +60,7 @@ func (s *NetworkAPIService) NetworkOptions(
 	ctx context.Context,
 	request *types.NetworkRequest,
 ) (*types.NetworkOptionsResponse, *types.Error) {
+	//TODO
 	return &types.NetworkOptionsResponse{
 		Version: &types.Version{
 			RosettaVersion: "1.4.0",

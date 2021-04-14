@@ -3,16 +3,19 @@ package proxy
 import (
 	"context"
 	"github.com/coinbase/rosetta-sdk-go/types"
+	"github.com/onrik/ethrpc"
 	"net/http"
 )
 
 type Proxy struct {
-	c *http.Client
+	//c *http.Client
+	c ethrpc.httpClient
 }
 
 func New() *Proxy {
 	proxy := &Proxy{}
-	proxy.c = http.DefaultClient
+	//proxy.c = http.DefaultClient
+	proxy.c = ethrpc.New("http://127.0.0.1:8545")
 	return proxy
 }
 
@@ -40,6 +43,8 @@ func (oc *Proxy) Balances(ctx context.Context, addr string, height *int64) ([]*t
 
 // BlockByHashAlt gets a block and its transaction at the provided height
 func (oc *Proxy) BlockByHash(ctx context.Context, hash string) (types.BlockResponse, error) {
+	_ := oc.c.EthGetBlockByHash(hash, false)
+
 	return types.BlockResponse{}, nil
 }
 

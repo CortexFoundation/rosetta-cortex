@@ -48,6 +48,8 @@ func (s *BlockAPIService) Block(
 		}, nil
 	}
 
+	//TODO
+
 	return &types.BlockResponse{
 		Block: &types.Block{
 			BlockIdentifier: &types.BlockIdentifier{
@@ -121,6 +123,7 @@ func (s *BlockAPIService) BlockTransaction(
 	ctx context.Context,
 	request *types.BlockTransactionRequest,
 ) (*types.BlockTransactionResponse, *types.Error) {
+	//TODO
 	return &types.BlockTransactionResponse{
 		Transaction: &types.Transaction{
 			TransactionIdentifier: &types.TransactionIdentifier{
