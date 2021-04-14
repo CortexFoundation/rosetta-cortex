@@ -2,8 +2,6 @@ package services
 
 import (
 	"context"
-	"fmt"
-	"time"
 
 	"github.com/coinbase/rosetta-sdk-go/server"
 	"github.com/coinbase/rosetta-sdk-go/types"
@@ -31,9 +29,9 @@ func (s *AccountAPIService) AccountBalance(
 			Index: 3616244,
 			Hash:  "0xec87df31c230298a66eabbfa3d030a835831a55ddbefdc958e77e2f7cd59e81d",
 		},
-		Balances: []*Amount{&types.Amount{Value: "1000", Currency: &types.Currency{Symbol: "CTXC", Decimals: 2}}},
+		Balances: []*types.Amount{&types.Amount{Value: "1000", Currency: &types.Currency{Symbol: "CTXC", Decimals: 2}}},
 		Metadata: nil,
-	}
+	}, nil
 }
 
 // BlockTransaction implements the /account/coins endpointfunc (s *AccountAPIService) AccountBalance(
@@ -48,5 +46,5 @@ func (s *AccountAPIService) AccountCoins(
 		},
 		Coins:    nil,
 		Metadata: nil,
-	}
+	}, nil
 }
