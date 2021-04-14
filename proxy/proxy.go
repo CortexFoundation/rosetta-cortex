@@ -3,15 +3,16 @@ package proxy
 import (
 	"context"
 	"github.com/coinbase/rosetta-sdk-go/types"
+	"net/http"
 )
 
 type Proxy struct {
-	c *mocks.Client
+	c *http.Client
 }
 
 func New() *Proxy {
 	proxy := &Proxy{}
-	proxy.c = mocks.NewClient("127.0.0.1:8545", nil, nil)
+	proxy.c = http.DefaultClient
 	return proxy
 }
 
