@@ -38,7 +38,7 @@ func (s *NetworkAPIService) NetworkStatus(
 ) (*types.NetworkStatusResponse, *types.Error) {
 	return &types.NetworkStatusResponse{
 		CurrentBlockIdentifier: &types.BlockIdentifier{
-			Index: 3616244,
+			Index: 1000,
 			Hash:  "0xec87df31c230298a66eabbfa3d030a835831a55ddbefdc958e77e2f7cd59e81d",
 		},
 		CurrentBlockTimestamp: int64(1618217080000),

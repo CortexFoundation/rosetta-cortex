@@ -5,8 +5,8 @@ import (
 	"log"
 	"net/http"
 
+	"github.com/CortexFoundation/rosetta-cortex/services"
 	"github.com/coinbase/rosetta-sdk-go/asserter"
-	"github.com/coinbase/rosetta-sdk-go/examples/server/services"
 	"github.com/coinbase/rosetta-sdk-go/server"
 	"github.com/coinbase/rosetta-sdk-go/types"
 )
@@ -33,7 +33,13 @@ func NewBlockchainRouter(
 		asserter,
 	)
 
-	return server.NewRouter(networkAPIController, blockAPIController)
+	accountAPIService := services.NewAccountAPIService(network)
+	accountAPIController := server.NewAccountAPIController(
+		accountAPIService,
+		asserter,
+	)
+
+	return server.NewRouter(networkAPIController, blockAPIController, accountAPIController)
 }
 
 func main() {

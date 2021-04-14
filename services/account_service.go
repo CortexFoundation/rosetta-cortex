@@ -2,8 +2,6 @@ package services
 
 import (
 	"context"
-	"fmt"
-	"time"
 
 	"github.com/coinbase/rosetta-sdk-go/server"
 	"github.com/coinbase/rosetta-sdk-go/types"
@@ -21,7 +19,7 @@ func NewAccountAPIService(network *types.NetworkIdentifier) server.AccountAPISer
 	}
 }
 
-// Block implements the /block endpoint.
+// Block implements the /account/balance endpoint.
 func (s *AccountAPIService) AccountBalance(
 	ctx context.Context,
 	request *types.AccountBalanceRequest,
@@ -29,24 +27,40 @@ func (s *AccountAPIService) AccountBalance(
 	return &types.AccountBalanceResponse{
 		BlockIdentifier: &types.BlockIdentifier{
 			Index: 1000,
-			Hash:  "block 1000",
+			Hash:  "0xec87df31c230298a66eabbfa3d030a835831a55ddbefdc958e77e2f7cd59e81d",
 		},
-		Balances: []*Amount{&types.Amount{Value: "1000", Currency: &types.Currency{Symbol: "CTXC", Decimals: 2}}},
-		Metadata: nil,
-	}
+		Balances: []*types.Amount{
+			&types.Amount{
+				Value:    "1000",
+				Currency: &types.Currency{Symbol: "CTXC", Decimals: 18},
+			},
+		},
+	}, nil
 }
 
-// BlockTransaction implements the /block/transaction endpoint.
-func (s *BlockAPIService) BlockTransaction(
+// BlockTransaction implements the /account/coins endpoint
+func (s *AccountAPIService) AccountCoins(
 	ctx context.Context,
 	request *types.AccountCoinsRequest,
 ) (*types.AccountCoinsResponse, *types.Error) {
 	return &types.AccountCoinsResponse{
 		BlockIdentifier: &types.BlockIdentifier{
 			Index: 1000,
-			Hash:  "block 1000",
+			Hash:  "0xec87df31c230298a66eabbfa3d030a835831a55ddbefdc958e77e2f7cd59e81d",
 		},
-		Coins:    nil,
-		Metadata: nil,
-	}
+		Coins: []*types.Coin{
+			{
+				Amount: &types.Amount{
+					Value: "1000",
+					Currency: &types.Currency{
+						Symbol:   "CTXC",
+						Decimals: 18,
+					},
+				},
+				CoinIdentifier: &types.CoinIdentifier{
+					Identifier: "coin",
+				},
+			},
+		},
+	}, nil
 }

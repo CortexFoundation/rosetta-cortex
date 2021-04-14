@@ -75,10 +75,10 @@ func (s *BlockAPIService) Block(
 								Address: "account 0",
 							},
 							Amount: &types.Amount{
-								Value: "-1000",
+								Value: "1000",
 								Currency: &types.Currency{
-									Symbol:   "ROS",
-									Decimals: 2,
+									Symbol:   "CTXC",
+									Decimals: 18,
 								},
 							},
 						},
@@ -99,8 +99,8 @@ func (s *BlockAPIService) Block(
 							Amount: &types.Amount{
 								Value: "1000",
 								Currency: &types.Currency{
-									Symbol:   "ROS",
-									Decimals: 2,
+									Symbol:   "CTXC",
+									Decimals: 18,
 								},
 							},
 						},
@@ -134,13 +134,13 @@ func (s *BlockAPIService) BlockTransaction(
 					Type:   "Reward",
 					Status: types.String("Success"),
 					Account: &types.AccountIdentifier{
-						Address: "account 2",
+						Address: "account 1",
 					},
 					Amount: &types.Amount{
 						Value: "1000",
 						Currency: &types.Currency{
-							Symbol:   "ROS",
-							Decimals: 2,
+							Symbol:   "CTXC",
+							Decimals: 18,
 						},
 					},
 				},
