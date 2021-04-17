@@ -48,7 +48,8 @@ func (oc *Proxy) BlockByHash(ctx context.Context, hash string) (res types.BlockR
 }
 
 // BlockByHeightAlt gets a block given its height, if height is nil then last block is returned
-func (oc *Proxy) BlockByHeight(ctx context.Context, height *int64) (types.BlockResponse, error) {
+func (oc *Proxy) BlockByHeight(ctx context.Context, height int64) (types.BlockResponse, error) {
+	oc.c.EthGetBlockByNumber(int(height), false)
 	return types.BlockResponse{}, nil
 }
 

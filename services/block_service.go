@@ -51,6 +51,9 @@ func (s *BlockAPIService) Block(
 		}, nil
 	}
 
+	s.proxy.BlockByHash(ctx, "only a hash")
+	s.proxy.BlockByHeight(ctx, 1001)
+
 	//TODO
 
 	return &types.BlockResponse{
