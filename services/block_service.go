@@ -7,11 +7,14 @@ import (
 
 	"github.com/coinbase/rosetta-sdk-go/server"
 	"github.com/coinbase/rosetta-sdk-go/types"
+
+	"github.com/CortexFoundation/rosetta-cortex/proxy"
 )
 
 // BlockAPIService implements the server.BlockAPIServicer interface.
 type BlockAPIService struct {
 	network *types.NetworkIdentifier
+	proxy   proxy.Proxy
 }
 
 // NewBlockAPIService creates a new instance of a BlockAPIService.
