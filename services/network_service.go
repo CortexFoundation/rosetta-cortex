@@ -39,9 +39,12 @@ func (s *NetworkAPIService) NetworkStatus(
 	ctx context.Context,
 	request *types.NetworkRequest,
 ) (*types.NetworkStatusResponse, *types.Error) {
-	//TODO
 
-	res, _ := s.proxy.CurrentBlock(ctx)
+	res, err := s.proxy.CurrentBlock(ctx)
+	if err != nil {
+		return &types.NetworkStatusResponse{}, nil
+	}
+
 	return &types.NetworkStatusResponse{
 		CurrentBlockIdentifier: &types.BlockIdentifier{
 			Index: res.Block.BlockIdentifier.Index,

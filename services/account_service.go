@@ -27,6 +27,7 @@ func (s *AccountAPIService) AccountBalance(
 	ctx context.Context,
 	request *types.AccountBalanceRequest,
 ) (*types.AccountBalanceResponse, *types.Error) {
+	//TODO
 	return &types.AccountBalanceResponse{
 		BlockIdentifier: &types.BlockIdentifier{
 			Index: 1000,
@@ -46,6 +47,7 @@ func (s *AccountAPIService) AccountCoins(
 	ctx context.Context,
 	request *types.AccountCoinsRequest,
 ) (*types.AccountCoinsResponse, *types.Error) {
+	//TODO
 	return &types.AccountCoinsResponse{
 		BlockIdentifier: &types.BlockIdentifier{
 			Index: 1000,
