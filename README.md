@@ -43,7 +43,9 @@ go run cmd/main.go
 [MEMORY] Heap: 5941.703407MB Stack: 1.531250MB System: 6262.950294MB GCs: 2
 [STATS] Blocks: 267880 (Orphaned: 100) Transactions: 2 Operations: 3 Accounts: 8892 Reconciliations: 0 (Inactive: 0, Exempt: 0, Skipped: 573966, Coverage: 0.000000%)
 [PROGRESS] Blocks Synced: 267786/3661133 (Completed: 7.314293%, Rate: 122.277169/second) Time Remaining: 7h42m31s Reconciler Queue: 0 (Last Index Checked: -1)
+```
 
+```
 +--------------------------+--------------------------------+-----------+
 |     CHECK:DATA STATS     |          DESCRIPTION           |   VALUE   |
 +--------------------------+--------------------------------+-----------+
