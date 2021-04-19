@@ -7,25 +7,25 @@
 Shared lib used in Cortex-SDK. This includes the libraries that are used by
 different versions of the SDK, including Launchpad and Stargate.
 
-Cortex full node
+### Cortex full node
 
 https://github.com/CortexFoundation/CortexTheseus
 ```
 ./cortex --rpc --rpcapi "net,web3,debug,admin,personal,ctxc"
 ```
 
-Starting the proxy service
+### Starting the proxy service
 ```
 go run cmd/main.go
 ```
 
-Do testing
+### Do testing
 
 ```
 ./test-insall.sh
 ./test-run.sh
 ```
-Test result
+### Test result
 ```
 2021/04/19 20:54:07 increasing syncer concurrency to 59 (projected new cache size: 0.142355 MB)
 2021/04/19 20:54:07 increasing syncer concurrency to 60 (projected new cache size: 0.144768 MB)
