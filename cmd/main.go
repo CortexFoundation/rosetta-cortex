@@ -5,6 +5,7 @@ import (
 	"log"
 	"net/http"
 
+	"github.com/CortexFoundation/rosetta-cortex/proxy"
 	"github.com/CortexFoundation/rosetta-cortex/services"
 	"github.com/coinbase/rosetta-sdk-go/asserter"
 	"github.com/coinbase/rosetta-sdk-go/server"
@@ -21,19 +22,21 @@ func NewBlockchainRouter(
 	network *types.NetworkIdentifier,
 	asserter *asserter.Asserter,
 ) http.Handler {
-	networkAPIService := services.NewNetworkAPIService(network)
+	p := proxy.New()
+
+	networkAPIService := services.NewNetworkAPIService(network, p)
 	networkAPIController := server.NewNetworkAPIController(
 		networkAPIService,
 		asserter,
 	)
 
-	blockAPIService := services.NewBlockAPIService(network)
+	blockAPIService := services.NewBlockAPIService(network, p)
 	blockAPIController := server.NewBlockAPIController(
 		blockAPIService,
 		asserter,
 	)
 
-	accountAPIService := services.NewAccountAPIService(network)
+	accountAPIService := services.NewAccountAPIService(network, p)
 	accountAPIController := server.NewAccountAPIController(
 		accountAPIService,
 		asserter,

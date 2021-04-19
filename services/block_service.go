@@ -18,8 +18,7 @@ type BlockAPIService struct {
 }
 
 // NewBlockAPIService creates a new instance of a BlockAPIService.
-func NewBlockAPIService(network *types.NetworkIdentifier) server.BlockAPIServicer {
-	p := proxy.New()
+func NewBlockAPIService(network *types.NetworkIdentifier, p *proxy.Proxy) server.BlockAPIServicer {
 	return &BlockAPIService{
 		network: network,
 		proxy:   p,

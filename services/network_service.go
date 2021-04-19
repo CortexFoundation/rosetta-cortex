@@ -15,8 +15,7 @@ type NetworkAPIService struct {
 }
 
 // NewNetworkAPIService creates a new instance of a NetworkAPIService.
-func NewNetworkAPIService(network *types.NetworkIdentifier) server.NetworkAPIServicer {
-	p := proxy.New()
+func NewNetworkAPIService(network *types.NetworkIdentifier, p *proxy.Proxy) server.NetworkAPIServicer {
 	return &NetworkAPIService{
 		network: network,
 		proxy:   p,

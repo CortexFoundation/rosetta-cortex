@@ -3,8 +3,10 @@ package proxy
 import (
 	"context"
 	//"time"
+	"fmt"
 	"github.com/coinbase/rosetta-sdk-go/types"
 	"github.com/onrik/ethrpc"
+	"log"
 	//"github.com/coinbase/rosetta-sdk-go/asserter"
 )
 
@@ -14,7 +16,15 @@ type Proxy struct {
 }
 
 func New() *Proxy {
-	return &Proxy{ethrpc.New("http://127.0.0.1:8545")}
+	client := ethrpc.New("http://127.0.0.1:8545")
+
+	version, err := client.Web3ClientVersion()
+	if err != nil {
+		//panic("Can't find http://127.0.0.1:8545")
+		log.Fatal(err)
+	}
+	fmt.Println(version)
+	return &Proxy{client}
 }
 
 // Needed if the client needs to perform some action before connecting
