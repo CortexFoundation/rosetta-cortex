@@ -22,7 +22,7 @@ func NewBlockchainRouter(
 	network *types.NetworkIdentifier,
 	asserter *asserter.Asserter,
 ) http.Handler {
-	p := proxy.New()
+	p := proxy.New("http://127.0.0.1:8545")
 
 	networkAPIService := services.NewNetworkAPIService(network, p)
 	networkAPIController := server.NewNetworkAPIController(

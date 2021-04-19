@@ -15,8 +15,8 @@ type Proxy struct {
 	c *ethrpc.EthRPC
 }
 
-func New() *Proxy {
-	client := ethrpc.New("http://127.0.0.1:8545")
+func New(url string) *Proxy {
+	client := ethrpc.New(url)
 
 	version, err := client.Web3ClientVersion()
 	if err != nil {
