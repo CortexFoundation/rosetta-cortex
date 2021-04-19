@@ -41,10 +41,26 @@ func (oc *Proxy) Balances(ctx context.Context, addr string, height *int64) ([]*t
 }
 
 // BlockByHashAlt gets a block and its transaction at the provided height
-func (oc *Proxy) BlockByHash(ctx context.Context, hash string) (res types.BlockResponse, err error) {
-	oc.c.EthGetBlockByHash(hash, false)
+func (oc *Proxy) BlockByHash(ctx context.Context, hash string) (res *types.BlockResponse, err error) {
+	b, e := oc.c.EthGetBlockByHash(hash, false)
+	if e != nil {
+		return &types.BlockResponse{}, e
+	}
 
-	return
+	return &types.BlockResponse{
+		Block: &types.Block{
+			BlockIdentifier: &types.BlockIdentifier{
+				Index: int64(b.Number),
+				Hash:  b.Hash,
+			},
+			ParentBlockIdentifier: &types.BlockIdentifier{
+				Index: int64(b.Number - 1),
+				Hash:  b.ParentHash,
+			},
+			Timestamp:    int64(b.Timestamp),
+			Transactions: []*types.Transaction{}, //b.Transactions
+		},
+	}, nil
 }
 
 // BlockByHeightAlt gets a block given its height, if height is nil then last block is returned

@@ -3,7 +3,7 @@ package services
 import (
 	"context"
 	"fmt"
-	"time"
+	//"time"
 
 	"github.com/coinbase/rosetta-sdk-go/server"
 	"github.com/coinbase/rosetta-sdk-go/types"
@@ -29,7 +29,7 @@ func (s *BlockAPIService) Block(
 	ctx context.Context,
 	request *types.BlockRequest,
 ) (*types.BlockResponse, *types.Error) {
-	if *request.BlockIdentifier.Index != 1000 {
+	/*if *request.BlockIdentifier.Index != 1000 {
 		previousBlockIndex := *request.BlockIdentifier.Index - 1
 		if previousBlockIndex < 0 {
 			previousBlockIndex = 0
@@ -49,14 +49,15 @@ func (s *BlockAPIService) Block(
 				Transactions: []*types.Transaction{},
 			},
 		}, nil
-	}
+	}*/
 
-	s.proxy.BlockByHash(ctx, "only a hash")
-	s.proxy.BlockByHeight(ctx, 1001)
+	res, _ := s.proxy.BlockByHash(ctx, *request.BlockIdentifier.Hash)
+	return res, nil
+	//s.proxy.BlockByHeight(ctx, *request.BlockIdentifier.Index)
 
 	//TODO
 
-	return &types.BlockResponse{
+	/*return &types.BlockResponse{
 		Block: &types.Block{
 			BlockIdentifier: &types.BlockIdentifier{
 				Index: 1000,
@@ -121,7 +122,7 @@ func (s *BlockAPIService) Block(
 				Hash: "transaction 1",
 			},
 		},
-	}, nil
+	}, nil*/
 }
 
 // BlockTransaction implements the /block/transaction endpoint.
