@@ -14,13 +14,15 @@ import (
 // BlockAPIService implements the server.BlockAPIServicer interface.
 type BlockAPIService struct {
 	network *types.NetworkIdentifier
-	proxy   proxy.Proxy
+	proxy   *proxy.Proxy
 }
 
 // NewBlockAPIService creates a new instance of a BlockAPIService.
 func NewBlockAPIService(network *types.NetworkIdentifier) server.BlockAPIServicer {
+	p := proxy.New()
 	return &BlockAPIService{
 		network: network,
+		proxy:   p,
 	}
 }
 
@@ -50,8 +52,11 @@ func (s *BlockAPIService) Block(
 			},
 		}, nil
 	}*/
-
-	res, _ := s.proxy.BlockByHash(ctx, *request.BlockIdentifier.Hash)
+	if request.BlockIdentifier == nil {
+		fmt.Printf("block request indentifier is nil\n")
+	}
+	//res, _ := s.proxy.BlockByHash(ctx, *request.BlockIdentifier.Hash)
+	res, _ := s.proxy.BlockByHeight(ctx, *request.BlockIdentifier.Index)
 	return res, nil
 	//s.proxy.BlockByHeight(ctx, *request.BlockIdentifier.Index)
 

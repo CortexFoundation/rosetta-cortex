@@ -2,8 +2,10 @@ package proxy
 
 import (
 	"context"
+	//"time"
 	"github.com/coinbase/rosetta-sdk-go/types"
 	"github.com/onrik/ethrpc"
+	//"github.com/coinbase/rosetta-sdk-go/asserter"
 )
 
 type Proxy struct {
@@ -12,10 +14,7 @@ type Proxy struct {
 }
 
 func New() *Proxy {
-	proxy := &Proxy{}
-	//proxy.c = http.DefaultClient
-	proxy.c = ethrpc.New("http://127.0.0.1:8545")
-	return proxy
+	return &Proxy{ethrpc.New("http://127.0.0.1:8545")}
 }
 
 // Needed if the client needs to perform some action before connecting
@@ -40,8 +39,16 @@ func (oc *Proxy) Balances(ctx context.Context, addr string, height *int64) ([]*t
 	return nil, nil
 }
 
+func (oc *Proxy) CurrentBlock(ctx context.Context) (res *types.BlockResponse, err error) {
+
+	num, _ := oc.c.EthBlockNumber()
+
+	return oc.BlockByHeight(ctx, int64(num))
+}
+
 // BlockByHashAlt gets a block and its transaction at the provided height
 func (oc *Proxy) BlockByHash(ctx context.Context, hash string) (res *types.BlockResponse, err error) {
+
 	b, e := oc.c.EthGetBlockByHash(hash, false)
 	if e != nil {
 		return &types.BlockResponse{}, e
@@ -57,16 +64,34 @@ func (oc *Proxy) BlockByHash(ctx context.Context, hash string) (res *types.Block
 				Index: int64(b.Number - 1),
 				Hash:  b.ParentHash,
 			},
-			Timestamp:    int64(b.Timestamp),
+			Timestamp:    int64(b.Timestamp) * 1000,
 			Transactions: []*types.Transaction{}, //b.Transactions
 		},
 	}, nil
 }
 
 // BlockByHeightAlt gets a block given its height, if height is nil then last block is returned
-func (oc *Proxy) BlockByHeight(ctx context.Context, height int64) (types.BlockResponse, error) {
-	oc.c.EthGetBlockByNumber(int(height), false)
-	return types.BlockResponse{}, nil
+func (oc *Proxy) BlockByHeight(ctx context.Context, height int64) (*types.BlockResponse, error) {
+	b, e := oc.c.EthGetBlockByNumber(int(height), false)
+
+	if e != nil {
+		return &types.BlockResponse{}, e
+	}
+
+	return &types.BlockResponse{
+		Block: &types.Block{
+			BlockIdentifier: &types.BlockIdentifier{
+				Index: int64(b.Number),
+				Hash:  b.Hash,
+			},
+			ParentBlockIdentifier: &types.BlockIdentifier{
+				Index: int64(b.Number - 1),
+				Hash:  b.ParentHash,
+			},
+			Timestamp:    int64(b.Timestamp) * 1000,
+			Transactions: []*types.Transaction{}, //b.Transactions
+		},
+	}, nil
 }
 
 // BlockTransactionsByHash gets the block, parent block and transactions
