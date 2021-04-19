@@ -26,3 +26,7 @@ Do testing
 ./test-run.sh
 ```
 ![image](https://user-images.githubusercontent.com/22344498/115228567-853abf80-a144-11eb-9374-4c5611f31f6a.png)
+
+Test result
+![image](https://user-images.githubusercontent.com/22344498/115239385-3ba4a180-a151-11eb-8209-3df9dfe61d93.png)
+
