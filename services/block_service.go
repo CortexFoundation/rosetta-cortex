@@ -2,7 +2,7 @@ package services
 
 import (
 	"context"
-	"fmt"
+	//"fmt"
 	//"time"
 
 	"github.com/coinbase/rosetta-sdk-go/server"
@@ -52,11 +52,11 @@ func (s *BlockAPIService) Block(
 			},
 		}, nil
 	}*/
-	if request.BlockIdentifier == nil {
-		fmt.Printf("block request indentifier is nil\n")
-	}
 	//res, _ := s.proxy.BlockByHash(ctx, *request.BlockIdentifier.Hash)
-	res, _ := s.proxy.BlockByHeight(ctx, *request.BlockIdentifier.Index)
+	res, err := s.proxy.BlockByHeight(ctx, *request.BlockIdentifier.Index)
+	if err != nil {
+		return &types.BlockResponse{}, nil
+	}
 	return res, nil
 	//s.proxy.BlockByHeight(ctx, *request.BlockIdentifier.Index)
 
