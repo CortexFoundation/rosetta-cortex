@@ -3,7 +3,7 @@ module github.com/CortexFoundation/rosetta-cortex
 go 1.16
 
 require (
-	github.com/coinbase/rosetta-sdk-go v0.6.10
+	github.com/coinbase/rosetta-sdk-go v0.6.11-0.20210417001636-4487787c91ff
 	github.com/golang/protobuf v1.4.3 // indirect
 	github.com/google/go-cmp v0.5.4 // indirect
 	github.com/jarcoal/httpmock v1.0.8 // indirect

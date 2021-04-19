@@ -3,6 +3,7 @@ package services
 import (
 	"context"
 
+	"github.com/CortexFoundation/rosetta-cortex/errors"
 	"github.com/CortexFoundation/rosetta-cortex/proxy"
 	"github.com/coinbase/rosetta-sdk-go/server"
 	"github.com/coinbase/rosetta-sdk-go/types"
@@ -42,7 +43,7 @@ func (s *NetworkAPIService) NetworkStatus(
 
 	res, err := s.proxy.CurrentBlock(ctx)
 	if err != nil {
-		return &types.NetworkStatusResponse{}, nil
+		return &types.NetworkStatusResponse{}, errors.ToRosetta(err)
 	}
 
 	return &types.NetworkStatusResponse{

@@ -8,6 +8,7 @@ import (
 	"github.com/coinbase/rosetta-sdk-go/server"
 	"github.com/coinbase/rosetta-sdk-go/types"
 
+	"github.com/CortexFoundation/rosetta-cortex/errors"
 	"github.com/CortexFoundation/rosetta-cortex/proxy"
 )
 
@@ -54,8 +55,9 @@ func (s *BlockAPIService) Block(
 	//res, _ := s.proxy.BlockByHash(ctx, *request.BlockIdentifier.Hash)
 	res, err := s.proxy.BlockByHeight(ctx, *request.BlockIdentifier.Index)
 	if err != nil {
-		return &types.BlockResponse{}, nil
+		return &types.BlockResponse{}, errors.ToRosetta(err)
 	}
+
 	return res, nil
 	//s.proxy.BlockByHeight(ctx, *request.BlockIdentifier.Index)
 
