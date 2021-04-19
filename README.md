@@ -7,6 +7,13 @@
 Shared lib used in Cortex-SDK. This includes the libraries that are used by
 different versions of the SDK, including Launchpad and Stargate.
 
+Cortex full node
+
+https://github.com/CortexFoundation/CortexTheseus
+```
+./cortex --rpc --rpcapi "net,web3,debug,admin,personal,ctxc"
+```
+
 Starting the proxy service
 ```
 go run cmd/main.go
