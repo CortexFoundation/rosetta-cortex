@@ -13,6 +13,7 @@ import (
 
 const (
 	serverPort = 8080
+	url        = "http://127.0.0.1:8545"
 )
 
 func main() {
@@ -36,7 +37,7 @@ func main() {
 
 	// Create the main router handler then apply the logger and Cors
 	// middlewares in sequence.
-	router := router.NewBlockchainRouter(network, asserter)
+	router := router.NewBlockchainRouter(network, asserter, url)
 
 	loggedRouter := server.LoggerMiddleware(router)
 	corsRouter := server.CorsMiddleware(loggedRouter)

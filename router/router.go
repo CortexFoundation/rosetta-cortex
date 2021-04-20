@@ -15,9 +15,9 @@ import (
 func NewBlockchainRouter(
 	network *types.NetworkIdentifier,
 	asserter *asserter.Asserter,
+	url string,
 ) http.Handler {
 
-	url := "http://127.0.0.1:8545"
 	p := proxy.New(url)
 
 	networkAPIService := services.NewNetworkAPIService(network, p)
