@@ -5,8 +5,7 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/CortexFoundation/rosetta-cortex/proxy"
-	"github.com/CortexFoundation/rosetta-cortex/services"
+	"github.com/CortexFoundation/rosetta-cortex/router"
 	"github.com/coinbase/rosetta-sdk-go/asserter"
 	"github.com/coinbase/rosetta-sdk-go/server"
 	"github.com/coinbase/rosetta-sdk-go/types"
@@ -15,37 +14,6 @@ import (
 const (
 	serverPort = 8080
 )
-
-// NewBlockchainRouter creates a Mux http.Handler from a collection
-// of server controllers.
-func NewBlockchainRouter(
-	network *types.NetworkIdentifier,
-	asserter *asserter.Asserter,
-) http.Handler {
-
-	url := "http://127.0.0.1:8545"
-	p := proxy.New(url)
-
-	networkAPIService := services.NewNetworkAPIService(network, p)
-	networkAPIController := server.NewNetworkAPIController(
-		networkAPIService,
-		asserter,
-	)
-
-	blockAPIService := services.NewBlockAPIService(network, p)
-	blockAPIController := server.NewBlockAPIController(
-		blockAPIService,
-		asserter,
-	)
-
-	accountAPIService := services.NewAccountAPIService(network, p)
-	accountAPIController := server.NewAccountAPIController(
-		accountAPIService,
-		asserter,
-	)
-
-	return server.NewRouter(networkAPIController, blockAPIController, accountAPIController)
-}
 
 func main() {
 	network := &types.NetworkIdentifier{
@@ -68,9 +36,11 @@ func main() {
 
 	// Create the main router handler then apply the logger and Cors
 	// middlewares in sequence.
-	router := NewBlockchainRouter(network, asserter)
+	router := router.NewBlockchainRouter(network, asserter)
+
 	loggedRouter := server.LoggerMiddleware(router)
 	corsRouter := server.CorsMiddleware(loggedRouter)
+
 	log.Printf("Listening on port %d\n", serverPort)
 	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%d", serverPort), corsRouter))
 }
