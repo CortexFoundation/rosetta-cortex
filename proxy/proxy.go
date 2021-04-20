@@ -103,14 +103,14 @@ func (oc *Proxy) BlockByHeight(ctx context.Context, height int64) (*types.BlockR
 
 // BlockTransactionsByHash gets the block, parent block and transactions
 // given the block hash.
-func (oc *Proxy) BlockTransactionsByHash(ctx context.Context, hash string) (types.BlockTransactionResponse, error) {
-	return types.BlockTransactionResponse{}, nil
+func (oc *Proxy) BlockTransactionsByHash(ctx context.Context, hash string) (*types.BlockTransactionResponse, error) {
+	return &types.BlockTransactionResponse{}, nil
 }
 
 // BlockTransactionsByHash gets the block, parent block and transactions
 // given the block hash.
-func (oc *Proxy) BlockTransactionsByHeight(ctx context.Context, height *int64) (types.BlockTransactionResponse, error) {
-	return types.BlockTransactionResponse{}, nil
+func (oc *Proxy) BlockTransactionsByHeight(ctx context.Context, height *int64) (*types.BlockTransactionResponse, error) {
+	return &types.BlockTransactionResponse{}, nil
 }
 
 // GetTx gets a transaction given its hash
