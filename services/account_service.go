@@ -3,6 +3,7 @@ package services
 import (
 	"context"
 
+	"github.com/CortexFoundation/rosetta-cortex/proxy"
 	"github.com/coinbase/rosetta-sdk-go/server"
 	"github.com/coinbase/rosetta-sdk-go/types"
 )
@@ -10,12 +11,14 @@ import (
 // BlockAPIService implements the server.BlockAPIServicer interface.
 type AccountAPIService struct {
 	network *types.NetworkIdentifier
+	proxy   *proxy.Proxy
 }
 
 // NewBlockAPIService creates a new instance of a BlockAPIService.
-func NewAccountAPIService(network *types.NetworkIdentifier) server.AccountAPIServicer {
+func NewAccountAPIService(network *types.NetworkIdentifier, p *proxy.Proxy) server.AccountAPIServicer {
 	return &AccountAPIService{
 		network: network,
+		proxy:   p,
 	}
 }
 
@@ -24,6 +27,7 @@ func (s *AccountAPIService) AccountBalance(
 	ctx context.Context,
 	request *types.AccountBalanceRequest,
 ) (*types.AccountBalanceResponse, *types.Error) {
+	//TODO
 	return &types.AccountBalanceResponse{
 		BlockIdentifier: &types.BlockIdentifier{
 			Index: 1000,
@@ -43,6 +47,7 @@ func (s *AccountAPIService) AccountCoins(
 	ctx context.Context,
 	request *types.AccountCoinsRequest,
 ) (*types.AccountCoinsResponse, *types.Error) {
+	//TODO
 	return &types.AccountCoinsResponse{
 		BlockIdentifier: &types.BlockIdentifier{
 			Index: 1000,

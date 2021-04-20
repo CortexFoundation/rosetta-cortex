@@ -2,22 +2,27 @@ package services
 
 import (
 	"context"
-	"fmt"
-	"time"
+	//"fmt"
+	//"time"
 
 	"github.com/coinbase/rosetta-sdk-go/server"
 	"github.com/coinbase/rosetta-sdk-go/types"
+
+	"github.com/CortexFoundation/rosetta-cortex/errors"
+	"github.com/CortexFoundation/rosetta-cortex/proxy"
 )
 
 // BlockAPIService implements the server.BlockAPIServicer interface.
 type BlockAPIService struct {
 	network *types.NetworkIdentifier
+	proxy   *proxy.Proxy
 }
 
 // NewBlockAPIService creates a new instance of a BlockAPIService.
-func NewBlockAPIService(network *types.NetworkIdentifier) server.BlockAPIServicer {
+func NewBlockAPIService(network *types.NetworkIdentifier, p *proxy.Proxy) server.BlockAPIServicer {
 	return &BlockAPIService{
 		network: network,
+		proxy:   p,
 	}
 }
 
@@ -26,7 +31,7 @@ func (s *BlockAPIService) Block(
 	ctx context.Context,
 	request *types.BlockRequest,
 ) (*types.BlockResponse, *types.Error) {
-	if *request.BlockIdentifier.Index != 1000 {
+	/*if *request.BlockIdentifier.Index != 1000 {
 		previousBlockIndex := *request.BlockIdentifier.Index - 1
 		if previousBlockIndex < 0 {
 			previousBlockIndex = 0
@@ -46,9 +51,19 @@ func (s *BlockAPIService) Block(
 				Transactions: []*types.Transaction{},
 			},
 		}, nil
+	}*/
+	//res, _ := s.proxy.BlockByHash(ctx, *request.BlockIdentifier.Hash)
+	res, err := s.proxy.BlockByHeight(ctx, *request.BlockIdentifier.Index)
+	if err != nil {
+		return &types.BlockResponse{}, errors.ToRosetta(err)
 	}
 
-	return &types.BlockResponse{
+	return res, nil
+	//s.proxy.BlockByHeight(ctx, *request.BlockIdentifier.Index)
+
+	//TODO
+
+	/*return &types.BlockResponse{
 		Block: &types.Block{
 			BlockIdentifier: &types.BlockIdentifier{
 				Index: 1000,
@@ -113,7 +128,7 @@ func (s *BlockAPIService) Block(
 				Hash: "transaction 1",
 			},
 		},
-	}, nil
+	}, nil*/
 }
 
 // BlockTransaction implements the /block/transaction endpoint.
@@ -121,6 +136,7 @@ func (s *BlockAPIService) BlockTransaction(
 	ctx context.Context,
 	request *types.BlockTransactionRequest,
 ) (*types.BlockTransactionResponse, *types.Error) {
+	//TODO
 	return &types.BlockTransactionResponse{
 		Transaction: &types.Transaction{
 			TransactionIdentifier: &types.TransactionIdentifier{

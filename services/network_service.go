@@ -3,6 +3,8 @@ package services
 import (
 	"context"
 
+	"github.com/CortexFoundation/rosetta-cortex/errors"
+	"github.com/CortexFoundation/rosetta-cortex/proxy"
 	"github.com/coinbase/rosetta-sdk-go/server"
 	"github.com/coinbase/rosetta-sdk-go/types"
 )
@@ -10,12 +12,14 @@ import (
 // NetworkAPIService implements the server.NetworkAPIServicer interface.
 type NetworkAPIService struct {
 	network *types.NetworkIdentifier
+	proxy   *proxy.Proxy
 }
 
 // NewNetworkAPIService creates a new instance of a NetworkAPIService.
-func NewNetworkAPIService(network *types.NetworkIdentifier) server.NetworkAPIServicer {
+func NewNetworkAPIService(network *types.NetworkIdentifier, p *proxy.Proxy) server.NetworkAPIServicer {
 	return &NetworkAPIService{
 		network: network,
+		proxy:   p,
 	}
 }
 
@@ -36,12 +40,18 @@ func (s *NetworkAPIService) NetworkStatus(
 	ctx context.Context,
 	request *types.NetworkRequest,
 ) (*types.NetworkStatusResponse, *types.Error) {
+
+	res, err := s.proxy.CurrentBlock(ctx)
+	if err != nil {
+		return &types.NetworkStatusResponse{}, errors.ToRosetta(err)
+	}
+
 	return &types.NetworkStatusResponse{
 		CurrentBlockIdentifier: &types.BlockIdentifier{
-			Index: 1000,
-			Hash:  "0xec87df31c230298a66eabbfa3d030a835831a55ddbefdc958e77e2f7cd59e81d",
+			Index: res.Block.BlockIdentifier.Index,
+			Hash:  res.Block.BlockIdentifier.Hash,
 		},
-		CurrentBlockTimestamp: int64(1618217080000),
+		CurrentBlockTimestamp: res.Block.Timestamp,
 		GenesisBlockIdentifier: &types.BlockIdentifier{
 			Index: 0,
 			Hash:  "0x21d6ce908e2d1464bd74bbdbf7249845493cc1ba10460758169b978e187762c1",
@@ -59,6 +69,7 @@ func (s *NetworkAPIService) NetworkOptions(
 	ctx context.Context,
 	request *types.NetworkRequest,
 ) (*types.NetworkOptionsResponse, *types.Error) {
+	//TODO
 	return &types.NetworkOptionsResponse{
 		Version: &types.Version{
 			RosettaVersion: "1.4.0",
