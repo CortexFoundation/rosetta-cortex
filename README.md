@@ -16,7 +16,7 @@ https://github.com/CortexFoundation/CortexTheseus
 
 ### Starting the proxy service
 ```
-go run cmd/main.go
+go run cmd/rosetta/main.go
 ```
 
 ### Do testing
