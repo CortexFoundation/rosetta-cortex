@@ -45,7 +45,7 @@ func (oc *Proxy) Balances(ctx context.Context, addr string, height *int64) ([]*t
 	return nil, nil
 }
 
-func (oc *Proxy) CurrentBlock(ctx context.Context) (res *types.BlockResponse, err error) {
+func (oc *Proxy) CurrentBlock(ctx context.Context) (*types.BlockResponse, error) {
 	num, e := oc.c.EthBlockNumber()
 	if e != nil {
 		return &types.BlockResponse{}, e
@@ -55,7 +55,7 @@ func (oc *Proxy) CurrentBlock(ctx context.Context) (res *types.BlockResponse, er
 }
 
 // BlockByHashAlt gets a block and its transaction at the provided height
-func (oc *Proxy) BlockByHash(ctx context.Context, hash string) (res *types.BlockResponse, err error) {
+func (oc *Proxy) BlockByHash(ctx context.Context, hash string) (*types.BlockResponse, error) {
 	b, e := oc.c.EthGetBlockByHash(hash, false)
 	if e != nil {
 		return &types.BlockResponse{}, e
