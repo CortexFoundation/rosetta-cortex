@@ -104,7 +104,36 @@ func (oc *Proxy) BlockByHeight(ctx context.Context, height int64) (*types.BlockR
 // BlockTransactionsByHash gets the block, parent block and transactions
 // given the block hash.
 func (oc *Proxy) BlockTransactionsByHash(ctx context.Context, hash string) (*types.BlockTransactionResponse, error) {
-	return &types.BlockTransactionResponse{}, nil
+	b, e := oc.c.EthGetTransactionByHash(hash)
+	if e != nil {
+		return &types.BlockTransactionResponse{}, e
+	}
+	return &types.BlockTransactionResponse{
+		Transaction: &types.Transaction{
+			TransactionIdentifier: &types.TransactionIdentifier{
+				Hash: b.Hash,
+			},
+			Operations: []*types.Operation{
+				{
+					OperationIdentifier: &types.OperationIdentifier{
+						Index: int64(*b.TransactionIndex),
+					},
+					Type:   "Reward",
+					Status: types.String("Success"),
+					Account: &types.AccountIdentifier{
+						Address: b.To,
+					},
+					Amount: &types.Amount{
+						Value: b.Value.String(),
+						Currency: &types.Currency{
+							Symbol:   "CTXC",
+							Decimals: 18,
+						},
+					},
+				},
+			},
+		},
+	}, nil
 }
 
 // BlockTransactionsByHash gets the block, parent block and transactions
