@@ -134,7 +134,6 @@ func (s *BlockAPIService) BlockTransaction(
 	ctx context.Context,
 	request *types.BlockTransactionRequest,
 ) (*types.BlockTransactionResponse, *types.Error) {
-	//TODO
 	/*return &types.BlockTransactionResponse{
 		Transaction: &types.Transaction{
 			TransactionIdentifier: &types.TransactionIdentifier{
