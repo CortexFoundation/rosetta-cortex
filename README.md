@@ -6,7 +6,7 @@
 Shared lib used in Cortex-SDK. This includes the libraries that are used by
 different versions of the SDK, including Launchpad and Stargate.
 
-### Cortex full node
+### Cortex full node (8G+)
 
 https://github.com/CortexFoundation/CortexTheseus
 ```
