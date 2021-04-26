@@ -3,6 +3,7 @@ package services
 import (
 	"context"
 
+	"github.com/CortexFoundation/rosetta-cortex/errors"
 	"github.com/CortexFoundation/rosetta-cortex/proxy"
 	"github.com/coinbase/rosetta-sdk-go/server"
 	"github.com/coinbase/rosetta-sdk-go/types"
@@ -27,8 +28,13 @@ func (s *AccountAPIService) AccountBalance(
 	ctx context.Context,
 	request *types.AccountBalanceRequest,
 ) (*types.AccountBalanceResponse, *types.Error) {
-	//TODO
-	return &types.AccountBalanceResponse{
+	res, err := s.proxy.Balances(ctx, request.AccountIdentifier.Address, nil)
+	if err != nil {
+		return &types.AccountBalanceResponse{}, errors.ToRosetta(err)
+	}
+	return res, nil
+
+	/*return &types.AccountBalanceResponse{
 		BlockIdentifier: &types.BlockIdentifier{
 			Index: 1000,
 			Hash:  "0xec87df31c230298a66eabbfa3d030a835831a55ddbefdc958e77e2f7cd59e81d",
@@ -39,7 +45,7 @@ func (s *AccountAPIService) AccountBalance(
 				Currency: &types.Currency{Symbol: "CTXC", Decimals: 18},
 			},
 		},
-	}, nil
+	}, nil*/
 }
 
 // BlockTransaction implements the /account/coins endpoint
