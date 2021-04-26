@@ -134,8 +134,7 @@ func (s *BlockAPIService) BlockTransaction(
 	ctx context.Context,
 	request *types.BlockTransactionRequest,
 ) (*types.BlockTransactionResponse, *types.Error) {
-	//TODO
-	return &types.BlockTransactionResponse{
+	/*return &types.BlockTransactionResponse{
 		Transaction: &types.Transaction{
 			TransactionIdentifier: &types.TransactionIdentifier{
 				Hash: "transaction 1",
@@ -160,5 +159,11 @@ func (s *BlockAPIService) BlockTransaction(
 				},
 			},
 		},
-	}, nil
+	}, nil*/
+	res, err := s.proxy.BlockTransactionsByHash(ctx, request.TransactionIdentifier.Hash)
+	if err != nil {
+		return &types.BlockTransactionResponse{}, errors.ToRosetta(err)
+	}
+
+	return res, nil
 }

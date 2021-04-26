@@ -41,8 +41,34 @@ func (oc *Proxy) Ready() error {
 // Balances fetches the balance of the given address
 // if height is not nil, then the balance will be displayed
 // at the provided height, otherwise last block balance will be returned
-func (oc *Proxy) Balances(ctx context.Context, addr string, height *int64) ([]*types.Amount, error) {
-	return nil, nil
+func (oc *Proxy) Balances(ctx context.Context, addr string, height *int64) (*types.AccountBalanceResponse, error) {
+	balance, e := oc.c.EthGetBalance(addr, "latest")
+	if e != nil {
+		return &types.AccountBalanceResponse{}, e
+	}
+
+	r, e := oc.CurrentBlock(ctx)
+	if e != nil {
+		return &types.AccountBalanceResponse{}, e
+	}
+
+	fmt.Printf("account : %s, balance : %s, index : %v, hash : %s\n", addr, balance.String(), r.Block.BlockIdentifier.Index, r.Block.BlockIdentifier.Hash)
+
+	return &types.AccountBalanceResponse{
+		BlockIdentifier: &types.BlockIdentifier{
+			Index: r.Block.BlockIdentifier.Index,
+			Hash:  r.Block.BlockIdentifier.Hash,
+			//Index: 1000,
+			//Hash:  "0xec87df31c230298a66eabbfa3d030a835831a55ddbefdc958e77e2f7cd59e81d",
+		},
+		//BlockIdentifier: nil,
+		Balances: []*types.Amount{
+			{
+				Value:    balance.String(),
+				Currency: &types.Currency{Symbol: "CTXC", Decimals: 18},
+			},
+		},
+	}, nil
 }
 
 func (oc *Proxy) CurrentBlock(ctx context.Context) (*types.BlockResponse, error) {
@@ -85,6 +111,23 @@ func (oc *Proxy) BlockByHeight(ctx context.Context, height int64) (*types.BlockR
 		return &types.BlockResponse{}, e
 	}
 
+	if height == 0 {
+		return &types.BlockResponse{
+			Block: &types.Block{
+				BlockIdentifier: &types.BlockIdentifier{
+					Index: int64(b.Number),
+					Hash:  b.Hash,
+				},
+				ParentBlockIdentifier: &types.BlockIdentifier{
+					Index: int64(0),
+					Hash:  b.ParentHash,
+				},
+				Timestamp:    int64(b.Timestamp) * 1000,
+				Transactions: []*types.Transaction{}, //b.Transactions
+			},
+		}, nil
+	}
+
 	return &types.BlockResponse{
 		Block: &types.Block{
 			BlockIdentifier: &types.BlockIdentifier{
@@ -104,7 +147,36 @@ func (oc *Proxy) BlockByHeight(ctx context.Context, height int64) (*types.BlockR
 // BlockTransactionsByHash gets the block, parent block and transactions
 // given the block hash.
 func (oc *Proxy) BlockTransactionsByHash(ctx context.Context, hash string) (*types.BlockTransactionResponse, error) {
-	return &types.BlockTransactionResponse{}, nil
+	b, e := oc.c.EthGetTransactionByHash(hash)
+	if e != nil {
+		return &types.BlockTransactionResponse{}, e
+	}
+	return &types.BlockTransactionResponse{
+		Transaction: &types.Transaction{
+			TransactionIdentifier: &types.TransactionIdentifier{
+				Hash: b.Hash,
+			},
+			Operations: []*types.Operation{
+				{
+					OperationIdentifier: &types.OperationIdentifier{
+						Index: int64(*b.TransactionIndex),
+					},
+					Type:   "Reward",
+					Status: types.String("Success"),
+					Account: &types.AccountIdentifier{
+						Address: b.To,
+					},
+					Amount: &types.Amount{
+						Value: b.Value.String(),
+						Currency: &types.Currency{
+							Symbol:   "CTXC",
+							Decimals: 18,
+						},
+					},
+				},
+			},
+		},
+	}, nil
 }
 
 // BlockTransactionsByHash gets the block, parent block and transactions
