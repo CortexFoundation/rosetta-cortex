@@ -6,10 +6,13 @@ import (
 	"github.com/coinbase/rosetta-sdk-go/types"
 	"github.com/onrik/ethrpc"
 	"log"
+	"math/big"
+	"sync"
 )
 
 type Proxy struct {
-	c *ethrpc.EthRPC
+	c  *ethrpc.EthRPC
+	wg sync.WaitGroup
 }
 
 func New(url string) *Proxy {
@@ -20,7 +23,7 @@ func New(url string) *Proxy {
 		log.Fatal(err)
 	}
 	fmt.Println(version)
-	return &Proxy{client}
+	return &Proxy{c: client}
 }
 
 // Needed if the client needs to perform some action before connecting
@@ -41,15 +44,31 @@ func (oc *Proxy) Ready() error {
 // Balances fetches the balance of the given address
 // if height is not nil, then the balance will be displayed
 // at the provided height, otherwise last block balance will be returned
-func (oc *Proxy) Balances(ctx context.Context, addr string, height *int64) (*types.AccountBalanceResponse, error) {
-	balance, e := oc.c.EthGetBalance(addr, "latest")
-	if e != nil {
-		return &types.AccountBalanceResponse{}, e
+func (oc *Proxy) Balances(ctx context.Context, addr string, height *int64) (res *types.AccountBalanceResponse, err error) {
+	var (
+		r       *types.BlockResponse
+		e1, e2  error
+		balance big.Int
+	)
+	oc.wg.Add(2)
+	go func() {
+		defer oc.wg.Done()
+		balance, e1 = oc.c.EthGetBalance(addr, "latest")
+	}()
+
+	go func() {
+		defer oc.wg.Done()
+		r, e2 = oc.CurrentBlock(ctx)
+	}()
+
+	oc.wg.Wait()
+
+	if e1 != nil {
+		return &types.AccountBalanceResponse{}, e1
 	}
 
-	r, e := oc.CurrentBlock(ctx)
-	if e != nil {
-		return &types.AccountBalanceResponse{}, e
+	if e2 != nil {
+		return &types.AccountBalanceResponse{}, e2
 	}
 
 	fmt.Printf("account : %s, balance : %s, index : %v, hash : %s\n", addr, balance.String(), r.Block.BlockIdentifier.Index, r.Block.BlockIdentifier.Hash)
