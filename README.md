@@ -18,10 +18,13 @@ https://github.com/CortexFoundation/CortexTheseus
 go run cmd/rosetta/main.go
 ```
 
-### Do testing
+### Do Install
 
 ```
 ./test-insall.sh
+```
+### Do Testing
+```
 ./test-run.sh
 ```
 ### Test result
