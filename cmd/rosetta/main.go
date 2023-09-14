@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"time"
 
 	"github.com/CortexFoundation/rosetta-cortex/router"
 	"github.com/coinbase/rosetta-sdk-go/asserter"
@@ -44,5 +45,13 @@ func main() {
 	corsRouter := server.CorsMiddleware(loggedRouter)
 
 	log.Printf("Listening on port %d\n", serverPort)
-	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%d", serverPort), corsRouter))
+	srv := &http.Server{
+		Addr:         fmt.Sprintf(":%d", serverPort),
+		Handler:      corsRouter,
+		ReadTimeout:  5 * time.Second,
+		WriteTimeout: 10 * time.Second,
+		IdleTimeout:  15 * time.Second,
+	}
+
+	log.Fatal(srv.ListenAndServe())
 }
